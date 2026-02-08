@@ -10,27 +10,68 @@ import XCTest
 
 final class MultipleMatrixTests: XCTestCase {
 
+    var objCollectionViewCell : CollectionViewCell!
+    var testLabel: UILabel!
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        objCollectionViewCell = CollectionViewCell()
+
+        testLabel = UILabel()
+        objCollectionViewCell.label = testLabel
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        objCollectionViewCell = nil
+        testLabel = nil
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func testChangeTestFizzBuzz() {
+        objCollectionViewCell.changeTest(with: UICollectionViewCell(), value: 15)
+        XCTAssertEqual(objCollectionViewCell.label?.text, "FizzBuzz", "Value 15 should display 'FizzBuzz'")
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testChangeTestFizz() {
+        objCollectionViewCell.changeTest(with: UICollectionViewCell(), value: 9)
+        XCTAssertEqual(objCollectionViewCell.label?.text, "Fizz", "Value 9 should display 'Fizz'")
     }
-
+    
+    func testChangeTestBuzz() {
+        objCollectionViewCell.changeTest(with: UICollectionViewCell(), value: 20)
+        XCTAssertEqual(objCollectionViewCell.label?.text, "Buzz", "Value 20 should display 'Buzz'")
+    }
+    
+    func testChangeTestNormalNumbers() {
+        objCollectionViewCell.label?.text = "1"
+        objCollectionViewCell.changeTest(with: UICollectionViewCell(), value: 1)
+        XCTAssertEqual(objCollectionViewCell.label?.text, "1", "Value 1 should not change label")
+        
+        objCollectionViewCell.label?.text = "2"
+        objCollectionViewCell.changeTest(with: UICollectionViewCell(), value: 2)
+        XCTAssertEqual(objCollectionViewCell.label?.text, "2", "Value 2 should not change label")
+        
+        objCollectionViewCell.label?.text = "7"
+        objCollectionViewCell.changeTest(with: UICollectionViewCell(), value: 7)
+        XCTAssertEqual(objCollectionViewCell.label?.text, "7", "Value 7 should not change label")
+    }
+    
+    func testChangeTestWithZero() {
+        objCollectionViewCell.changeTest(with: UICollectionViewCell(), value: 0)
+        XCTAssertEqual(objCollectionViewCell.label?.text, "FizzBuzz", "Value 0 should display 'FizzBuzz' (0 is divisible by both 3 and 5)")
+    }
+    
+    func testChangeTestWithNegativeNumbers() {
+        objCollectionViewCell.changeTest(with: UICollectionViewCell(), value: -30)
+        XCTAssertEqual(objCollectionViewCell.label?.text, "FizzBuzz", "Value -30 should display 'FizzBuzz'")
+        
+        objCollectionViewCell.changeTest(with: UICollectionViewCell(), value: -9)
+        XCTAssertEqual(objCollectionViewCell.label?.text, "Fizz", "Value -9 should display 'Fizz'")
+        
+        // Test negative number divisible by 5 only
+        objCollectionViewCell.changeTest(with: UICollectionViewCell(), value: -5)
+        XCTAssertEqual(objCollectionViewCell.label?.text, "Buzz", "Value -5 should display 'Buzz'")
+        
+        objCollectionViewCell.label?.text = "-7"
+        objCollectionViewCell.changeTest(with: UICollectionViewCell(), value: -7)
+        XCTAssertEqual(objCollectionViewCell.label?.text, "-7", "Value -7 should not change label")
+    }
 }

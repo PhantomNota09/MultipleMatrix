@@ -15,6 +15,21 @@ class CollectionViewCell: UICollectionViewCell {
         label?.text = String(indexPath + 1)
     }
     
+    func changeTest(with cell: UICollectionViewCell, value: Int) {
+        if (value%3 == 0 && value%5 == 0) {
+            label?.text = "FizzBuzz"
+        }
+        else if (value%3 == 0 || value%5 == 0) {
+            if value%3 == 0 {
+                label?.text = "Fizz"
+            }
+            
+            if value%5 == 0 {
+                label?.text = "Buzz"
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
